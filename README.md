@@ -76,7 +76,9 @@ pip install --user dfly --upgrade
 To debug a Python script or application, simply prefix the command with `dfly`.
 The built-in `breakpoint()` is replaced with Dragonfly's own implementation, so
 that you can set breakpoints in your code by simply adding `breakpoint()` where
-needed.
+needed. Alternatively, if you are not using the `dfly` command, you can simply
+import `dragonfly.bite` before any calls to `breakpoint` to achieve the same
+effect.
 
 Dragonfly is still in an early stage of development, so it is not yet feature
 complete. However, it is already usable for the most common debugging tasks,

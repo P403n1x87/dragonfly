@@ -18,6 +18,7 @@ from dragonfly._breakpoint.registry import BreakpointRegistry
 from dragonfly._breakpoint.registry import BreakpointRegistryEntry
 from dragonfly._commands import COMMAND_STREAM
 from dragonfly._commands import DebuggerCommandHandlerMixin
+from dragonfly._commands import RunCommand
 from dragonfly._injection import eject_hook
 from dragonfly._injection import inject_hook
 from dragonfly._interface import DebuggerInterface
@@ -259,6 +260,9 @@ class Debugger(DebuggerCommandHandlerMixin, DebuggerTracingMixin, DebuggerInterf
                 notify.hit(entry, current_frame.f_lineno)
 
             self._prompt(frame)
+
+    def run(self) -> None:
+        self.handle(RunCommand(), None)
 
     def _prompt(self, frame: t.Optional[FrameType] = None) -> None:
         self.reset_tracing()
