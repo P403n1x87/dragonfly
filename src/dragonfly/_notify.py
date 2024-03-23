@@ -91,7 +91,12 @@ def dfly(message: str) -> None:
 
 def frame(frame: FrameType) -> None:
     code = frame.f_code
-    log.info("File %s, line %d, in %s", code.co_filename, frame.f_lineno, code.co_name)
+    log.info(
+        "File %s, line %d, in %s",
+        code.co_filename,
+        frame.f_lineno or f"<unknown> (lasti {frame.f_lasti})",
+        code.co_name,
+    )
 
     current_line = linecache.getline(code.co_filename, frame.f_lineno)
     if current_line != "":
@@ -99,6 +104,10 @@ def frame(frame: FrameType) -> None:
 
 
 def list_lines(frame: FrameType, before: int = 5, after: int = 5) -> None:
+    if frame.f_lineno is None:
+        log.info("<unknown current line location>")
+        return
+
     code = frame.f_code
     start = max(1, frame.f_lineno - before)
     end = frame.f_lineno + after
@@ -141,6 +150,10 @@ def list_instrs(frame: FrameType, before: int = 5, after: int = 5) -> None:
 def list_stack(frame: FrameType) -> None:
     if (n := (stack := get_stack(frame)).pop(-1)) == 0:
         log.info("< Empty stack >")
+        return
+
+    if n < 0:
+        log.info("< Invalid stack size! >")
         return
 
     for i in range(n):
