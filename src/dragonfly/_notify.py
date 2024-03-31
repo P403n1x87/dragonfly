@@ -92,9 +92,9 @@ def dfly(message: str) -> None:
 def frame(frame: FrameType) -> None:
     code = frame.f_code
     log.info(
-        "File %s, line %d, in %s",
+        "File %s, line %s, in %s",
         code.co_filename,
-        frame.f_lineno or f"<unknown> (lasti {frame.f_lasti})",
+        frame.f_lineno and str(frame.f_lineno) or f"<unknown> (lasti {frame.f_lasti})",
         code.co_name,
     )
 
